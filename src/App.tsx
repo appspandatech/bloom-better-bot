@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { CartProvider } from "@/context/CartContext";
 import Index from "./pages/Index.tsx";
 import Grandes from "./pages/Grandes.tsx";
 import Pequenos from "./pages/Pequenos.tsx";
@@ -17,20 +18,22 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/grandes" element={<Grandes />} />
-          <Route path="/pequenos" element={<Pequenos />} />
-          <Route path="/boda" element={<Boda />} />
-          <Route path="/regalos" element={<Regalos />} />
-          <Route path="/perfumes" element={<Perfumes />} />
-          <Route path="/suscripcion" element={<Suscripcion />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <CartProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/grandes" element={<Grandes />} />
+            <Route path="/pequenos" element={<Pequenos />} />
+            <Route path="/boda" element={<Boda />} />
+            <Route path="/regalos" element={<Regalos />} />
+            <Route path="/perfumes" element={<Perfumes />} />
+            <Route path="/suscripcion" element={<Suscripcion />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
