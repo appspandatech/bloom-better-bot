@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Truck, Heart, Sparkles, Award } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
+import { useCart } from "@/context/CartContext";
 import heroImg from "@/assets/hero-bouquet.jpg";
 import grandesImg from "@/assets/collection-grandes.jpg";
 import pequenosImg from "@/assets/collection-pequenos.jpg";
@@ -24,6 +25,7 @@ const testimonials = [
 ];
 
 const Index = () => {
+  const { addItem } = useCart();
   return (
     <PageLayout>
       {/* HERO */}
@@ -149,7 +151,17 @@ const Index = () => {
               <span className="font-serif text-4xl text-primary">₡ 30 000</span>
             </div>
             <div className="flex gap-4 pt-4">
-              <button className="bg-secondary text-secondary-foreground px-8 py-4 text-xs tracking-[0.3em] uppercase hover:bg-primary transition-colors">
+              <button
+                onClick={() =>
+                  addItem({
+                    id: "ramo-mes-tulipan-abril",
+                    name: "Tulipán 20 unidades — Ramo del Mes",
+                    price: 30000,
+                    image: ramoMesImg,
+                  })
+                }
+                className="bg-secondary text-secondary-foreground px-8 py-4 text-xs tracking-[0.3em] uppercase hover:bg-primary transition-colors"
+              >
                 Agregar al carrito
               </button>
               <a

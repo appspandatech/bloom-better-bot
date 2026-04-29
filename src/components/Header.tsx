@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X, ShoppingBag } from "lucide-react";
 import Logo from "./Logo";
+import { useCart } from "@/context/CartContext";
 
 const links = [
   { to: "/", label: "Inicio" },
@@ -16,6 +17,7 @@ const links = [
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { count, openCart } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -56,19 +58,41 @@ const Header = () => {
           >
             Miembro Golden
           </Link>
-          <button aria-label="Carrito" className="relative p-2 text-foreground hover:text-primary transition-colors">
+          <button
+            onClick={openCart}
+            aria-label="Abrir carrito"
+            className="relative p-2 text-foreground hover:text-primary transition-colors"
+          >
             <ShoppingBag size={20} />
-            <span className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+            {count > 0 && (
+              <span className="absolute -top-0.5 -right-0.5 bg-primary text-primary-foreground text-[10px] min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center">
+                {count}
+              </span>
+            )}
           </button>
         </div>
 
-        <button
-          className="lg:hidden p-2 text-foreground"
-          onClick={() => setOpen(!open)}
-          aria-label="Menú"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="lg:hidden flex items-center gap-1">
+          <button
+            onClick={openCart}
+            aria-label="Abrir carrito"
+            className="relative p-2 text-foreground hover:text-primary transition-colors"
+          >
+            <ShoppingBag size={20} />
+            {count > 0 && (
+              <span className="absolute top-0 right-0 bg-primary text-primary-foreground text-[10px] min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center">
+                {count}
+              </span>
+            )}
+          </button>
+          <button
+            className="p-2 text-foreground"
+            onClick={() => setOpen(!open)}
+            aria-label="Menú"
+          >
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {open && (
