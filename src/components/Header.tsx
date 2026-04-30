@@ -1,40 +1,95 @@
-import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X, ShoppingBag, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import { useCart } from "@/context/CartContext";
 
-const navItems = [
+type SubItem = { to: string; label: string };
+type NavItem = { to?: string; label: string; children?: SubItem[] };
+
+const navItems: NavItem[] = [
   { to: "/", label: "Inicio" },
-  { to: "/productos", label: "Catálogo General" },
   {
     label: "Ramos",
-    items: [
-      { to: "/categoria/ramos-grandes", label: "Ramos Grandes" },
-      { to: "/categoria/ramos-pequenos", label: "Ramos pequeños" },
-      { to: "/categoria/cajas-y-jarrones", label: "Cajas y Jarrones" },
-      { to: "/categoria/boda", label: "Boda" },
-    ]
+    children: [
+      { to: "/grandes", label: "Ramos Grandes" },
+      { to: "/pequenos", label: "Ramos Pequeños" },
+      { to: "/cajas-jarrones", label: "Cajas y Jarrones" },
+      { to: "/boda", label: "Boda" },
+    ],
   },
   {
     label: "Regalos",
-    items: [
-      { to: "/categoria/dulces", label: "Dulces" },
-      { to: "/categoria/peluches", label: "Peluches" },
-    ]
+    children: [
+      { to: "/regalos/dulces", label: "Dulces" },
+      { to: "/regalos/peluches", label: "Peluches" },
+    ],
   },
   {
     label: "Perfumes",
-    items: [
-      { to: "/categoria/hombres", label: "Hombres" },
-      { to: "/categoria/mujeres", label: "Mujeres" },
-    ]
+    children: [
+      { to: "/perfumes/hombres", label: "Hombres" },
+      { to: "/perfumes/mujeres", label: "Mujeres" },
+    ],
   },
+  { to: "/suscripcion", label: "Miembro Golden" },
 ];
+
+const linkClass = (isActive: boolean) =>
+  `text-sm tracking-wide uppercase transition-colors hover:text-primary ${isActive ? "text-primary" : "text-foreground/80"
+  }`;
+
+const DesktopDropdown = ({ item }: { item: NavItem }) => {
+  const [open, setOpen] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+  const location = useLocation();
+  const isActive = item.children?.some((c) => location.pathname.startsWith(c.to));
+
+  const handleEnter = () => {
+    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+    setOpen(true);
+  };
+  const handleLeave = () => {
+    timeoutRef.current = window.setTimeout(() => setOpen(false), 120);
+  };
+
+  return (
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      <button
+        type="button"
+        className={`flex items-center gap-1 ${linkClass(!!isActive)}`}
+        aria-haspopup="true"
+        aria-expanded={open}
+      >
+        {item.label}
+        <ChevronDown size={14} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 min-w-[220px] animate-fade-in">
+          <div className="bg-background border border-border shadow-soft py-2">
+            {item.children!.map((c) => (
+              <NavLink
+                key={c.to}
+                to={c.to}
+                className={({ isActive }) =>
+                  `block px-5 py-2.5 text-sm tracking-wide transition-colors hover:bg-muted hover:text-primary ${isActive ? "text-primary" : "text-foreground/80"
+                  }`
+                }
+              >
+                {c.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [openMobileSection, setOpenMobileSection] = useState<string | null>(null);
   const { count, openCart } = useCart();
 
   useEffect(() => {
@@ -45,53 +100,27 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
-        scrolled ? "bg-background/90 backdrop-blur-md shadow-soft" : "bg-transparent"
-      }`}
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? "bg-background/90 backdrop-blur-md shadow-soft" : "bg-transparent"
+        }`}
     >
       <div className="container flex items-center justify-between h-20">
         <Logo />
 
         <nav className="hidden lg:flex items-center gap-8">
-          {navItems.map((item) => (
-            item.to ? (
+          {navItems.slice(0, -1).map((item) =>
+            item.children ? (
+              <DesktopDropdown key={item.label} item={item} />
+            ) : (
               <NavLink
                 key={item.to}
-                to={item.to}
+                to={item.to!}
                 end={item.to === "/"}
-                className={({ isActive }) =>
-                  `text-sm tracking-wide uppercase transition-colors hover:text-primary ${
-                    isActive ? "text-primary" : "text-foreground/80"
-                  }`
-                }
+                className={({ isActive }) => linkClass(isActive)}
               >
                 {item.label}
               </NavLink>
-            ) : (
-              <div key={item.label} className="relative group cursor-pointer">
-                <span className="flex items-center gap-1 text-sm tracking-wide uppercase text-foreground/80 transition-colors group-hover:text-primary">
-                  {item.label} <ChevronDown size={14} />
-                </span>
-                <div className="absolute top-full left-0 pt-4 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all">
-                  <div className="bg-background border border-border shadow-soft min-w-[200px] py-2 flex flex-col">
-                    {item.items?.map((subItem) => (
-                      <NavLink
-                        key={subItem.to}
-                        to={subItem.to}
-                        className={({ isActive }) =>
-                          `px-4 py-2 text-sm uppercase tracking-wider transition-colors hover:bg-secondary hover:text-primary ${
-                            isActive ? "text-primary bg-secondary/50" : "text-foreground/80"
-                          }`
-                        }
-                      >
-                        {subItem.label}
-                      </NavLink>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )
-          ))}
+            ),
+          )}
         </nav>
 
         <div className="hidden lg:flex items-center gap-4">
@@ -139,43 +168,60 @@ const Header = () => {
       </div>
 
       {open && (
-        <div className="lg:hidden bg-background border-t border-border animate-fade-in max-h-[calc(100vh-5rem)] overflow-y-auto">
-          <nav className="container py-6 flex flex-col gap-4">
-            {navItems.map((item) => (
-              item.to ? (
+        <div className="lg:hidden bg-background border-t border-border animate-fade-in">
+          <nav className="container py-6 flex flex-col gap-1">
+            {navItems.map((item) =>
+              item.children ? (
+                <div key={item.label} className="border-b border-border/50 last:border-b-0">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenMobileSection(openMobileSection === item.label ? null : item.label)
+                    }
+                    className="w-full flex items-center justify-between py-3 text-base tracking-wide uppercase text-foreground/80"
+                  >
+                    {item.label}
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform ${openMobileSection === item.label ? "rotate-180" : ""
+                        }`}
+                    />
+                  </button>
+                  {openMobileSection === item.label && (
+                    <div className="pb-3 pl-4 flex flex-col gap-2">
+                      {item.children.map((c) => (
+                        <NavLink
+                          key={c.to}
+                          to={c.to}
+                          onClick={() => {
+                            setOpen(false);
+                            setOpenMobileSection(null);
+                          }}
+                          className={({ isActive }) =>
+                            `text-sm py-1.5 ${isActive ? "text-primary" : "text-foreground/70"}`
+                          }
+                        >
+                          {c.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
                 <NavLink
                   key={item.to}
-                  to={item.to}
+                  to={item.to!}
                   end={item.to === "/"}
                   onClick={() => setOpen(false)}
                   className={({ isActive }) =>
-                    `text-base tracking-wide uppercase py-2 ${isActive ? "text-primary" : "text-foreground/80"}`
+                    `text-base tracking-wide uppercase py-3 border-b border-border/50 ${isActive ? "text-primary" : "text-foreground/80"
+                    }`
                   }
                 >
                   {item.label}
                 </NavLink>
-              ) : (
-                <div key={item.label} className="flex flex-col gap-2 py-2">
-                  <span className="text-base tracking-wide uppercase text-foreground/50">
-                    {item.label}
-                  </span>
-                  <div className="flex flex-col gap-3 pl-4 border-l border-border">
-                    {item.items?.map((subItem) => (
-                      <NavLink
-                        key={subItem.to}
-                        to={subItem.to}
-                        onClick={() => setOpen(false)}
-                        className={({ isActive }) =>
-                          `text-sm tracking-wide uppercase ${isActive ? "text-primary" : "text-foreground/80"}`
-                        }
-                      >
-                        {subItem.label}
-                      </NavLink>
-                    ))}
-                  </div>
-                </div>
-              )
-            ))}
+              ),
+            )}
           </nav>
         </div>
       )}
