@@ -94,7 +94,7 @@ const Index = () => {
               </div>
               <div className="absolute -top-4 -right-4 bg-primary text-primary-foreground w-24 h-24 rounded-full flex flex-col items-center justify-center text-center hidden md:flex">
                 <Sparkles size={16} />
-                <p className="text-[9px] tracking-widest uppercase mt-1 leading-tight">Hecho<br/>a mano</p>
+                <p className="text-[9px] tracking-widest uppercase mt-1 leading-tight">Hecho<br />a mano</p>
               </div>
             </div>
           </div>
@@ -123,8 +123,16 @@ const Index = () => {
 
       {/* RAMO DEL MES */}
       <section className="container py-24 md:py-32">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="relative order-2 lg:order-1">
+        {/* Mobile Title */}
+        <div className="block lg:hidden mb-8 space-y-4">
+          <p className="text-xs tracking-[0.4em] uppercase text-primary">Ramo del mes · Abril</p>
+          <h2 className="font-serif text-5xl md:text-6xl leading-tight">
+            Tulipán <span className="italic text-gradient-gold">20 unidades</span>
+          </h2>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="relative order-1">
             <img
               src={ramoMesImg}
               alt="Ramo Tulipán del mes"
@@ -135,12 +143,15 @@ const Index = () => {
               Edición limitada
             </div>
           </div>
-          <div className="space-y-6 order-1 lg:order-2">
-            <p className="text-xs tracking-[0.4em] uppercase text-primary">Ramo del mes · Abril</p>
-            <h2 className="font-serif text-5xl md:text-6xl leading-tight">
-              Tulipán <span className="italic text-gradient-gold">20 unidades</span>
-            </h2>
-            <div className="w-16 h-px bg-primary" />
+          <div className="space-y-6 order-2">
+            {/* Desktop Title */}
+            <div className="hidden lg:block space-y-6">
+              <p className="text-xs tracking-[0.4em] uppercase text-primary">Ramo del mes · Abril</p>
+              <h2 className="font-serif text-5xl md:text-6xl leading-tight">
+                Tulipán <span className="italic text-gradient-gold">20 unidades</span>
+              </h2>
+            </div>
+            <div className="w-16 h-px bg-primary hidden lg:block" />
             <p className="text-lg text-muted-foreground leading-relaxed">
               Veinte tulipanes frescos en tonos cálidos de rojo, naranja y amarillo,
               envueltos en papel kraft con lazo dorado. Una explosión de primavera
@@ -165,7 +176,9 @@ const Index = () => {
                 Agregar al carrito
               </button>
               <a
-                href="https://wa.me/50689686661"
+                href="https://wa.me/50689686661?text=Hola!%20Me%20gustar%C3%ADa%20consultar%20sobre%20el%20Tulip%C3%A1n%2020%20unidades%20%E2%80%94%20Ramo%20del%20Mes."
+                target="_blank"
+                rel="noopener noreferrer"
                 className="border border-foreground/30 px-8 py-4 text-xs tracking-[0.3em] uppercase hover:border-primary hover:text-primary transition-colors"
               >
                 Consultar
@@ -224,29 +237,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* TESTIMONIOS */}
-      <section className="container py-24 md:py-32">
-        <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-          <p className="text-xs tracking-[0.4em] uppercase text-primary">Testimonios</p>
-          <h2 className="font-serif text-5xl md:text-6xl">
-            Historias que <span className="italic text-gradient-gold">florecen</span>
-          </h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((t) => (
-            <figure key={t.name} className="bg-card p-10 shadow-soft hover-lift">
-              <div className="text-primary text-5xl font-serif leading-none mb-4">"</div>
-              <blockquote className="text-foreground/80 italic font-serif text-xl leading-relaxed mb-6">
-                {t.text}
-              </blockquote>
-              <figcaption>
-                <p className="font-serif text-lg">{t.name}</p>
-                <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground mt-1">{t.role}</p>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
+
 
       {/* MEMBRESIA CTA */}
       <section className="relative bg-secondary text-secondary-foreground py-24 md:py-32 overflow-hidden">

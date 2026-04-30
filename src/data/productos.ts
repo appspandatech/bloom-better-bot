@@ -18,6 +18,8 @@ export interface Producto {
   subcategoria: SubCategoria;
   tag?: string;
   description?: string;
+  hasCarousel?: boolean;
+  images?: string[];
 }
 
 export const productos: Producto[] = [
@@ -25,16 +27,11 @@ export const productos: Producto[] = [
     "id": "prod-1",
     "name": "Box Red1",
     "price": 55000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/cajas/boxRed2.jpeg",
+    ],
     "image": "/productos/cajas/boxRed1.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Cajas y Jarrones",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-2",
-    "name": "IMG_2337",
-    "price": 55000,
-    "image": "/productos/cajas/IMG_2337.jpeg",
     "categoria": "Ramos",
     "subcategoria": "Cajas y Jarrones",
     "description": "Hermoso detalle para regalar."
@@ -43,16 +40,11 @@ export const productos: Producto[] = [
     "id": "prod-3",
     "name": "Jar1Gerbera1",
     "price": 55000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/cajas/jar1Gerbera2.jpeg",
+    ],
     "image": "/productos/cajas/jar1Gerbera1.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Cajas y Jarrones",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-4",
-    "name": "Jar1Gerbera2",
-    "price": 55000,
-    "image": "/productos/cajas/jar1Gerbera2.jpeg",
     "categoria": "Ramos",
     "subcategoria": "Cajas y Jarrones",
     "description": "Hermoso detalle para regalar."
@@ -915,26 +907,12 @@ export const productos: Producto[] = [
   {
     "id": "prod-100",
     "name": "Ram12Big Prima1",
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ram12BigPrima2.jpg",
+    ],
     "price": 45000,
     "image": "/productos/ramos/grandes/ram12BigPrima1.jpg",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-101",
-    "name": "Ram12Big Prima1",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ram12BigPrima1.png",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-102",
-    "name": "Ram12Big Prima2",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ram12BigPrima2.jpg",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -952,16 +930,11 @@ export const productos: Producto[] = [
     "id": "prod-104",
     "name": "Ram16Big Tuli1",
     "price": 45000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ram16BigTuli2.png"
+    ],
     "image": "/productos/ramos/grandes/ram16BigTuli1.png",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-105",
-    "name": "Ram16Big Tuli2",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ram16BigTuli2.png",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -970,16 +943,11 @@ export const productos: Producto[] = [
     "id": "prod-106",
     "name": "Ram6Med Prima1",
     "price": 45000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ram6MedPrima2.jpeg"
+    ],
     "image": "/productos/ramos/grandes/ram6MedPrima1.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-107",
-    "name": "Ram6Med Prima2",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ram6MedPrima2.jpeg",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -987,17 +955,13 @@ export const productos: Producto[] = [
   {
     "id": "prod-108",
     "name": "Ram Big Marg1",
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ramBigMarg2.jpeg",
+      "/productos/ramos/grandes/ramBigMarg1.mp4"
+    ],
     "price": 45000,
     "image": "/productos/ramos/grandes/ramBigMarg1.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-109",
-    "name": "Ram Big Marg2",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ramBigMarg2.jpeg",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -1006,16 +970,11 @@ export const productos: Producto[] = [
     "id": "prod-110",
     "name": "Ram Big Primaveral1",
     "price": 45000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ramBigPrimaveral2.jpeg"
+    ],
     "image": "/productos/ramos/grandes/ramBigPrimaveral1.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-111",
-    "name": "Ram Big Primaveral2",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ramBigPrimaveral2.jpeg",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -1032,26 +991,13 @@ export const productos: Producto[] = [
   {
     "id": "prod-113",
     "name": "Ram Big Primaveral4",
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ramBigPrimaveral5.jpeg",
+      "/productos/ramos/grandes/ramBigPrimaveral6.jpeg",
+    ],
     "price": 45000,
     "image": "/productos/ramos/grandes/ramBigPrimaveral4.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-114",
-    "name": "Ram Big Primaveral5",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ramBigPrimaveral5.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-115",
-    "name": "Ram Big Primaveral6",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ramBigPrimaveral6.jpeg",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -1060,16 +1006,11 @@ export const productos: Producto[] = [
     "id": "prod-116",
     "name": "Ram Big Primaveral7",
     "price": 45000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ramBigPrimaveral8.jpeg",
+    ],
     "image": "/productos/ramos/grandes/ramBigPrimaveral7.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-117",
-    "name": "Ram Big Primaveral8",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ramBigPrimaveral8.jpeg",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -1087,16 +1028,11 @@ export const productos: Producto[] = [
     "id": "prod-119",
     "name": "Ramo Gierbera1",
     "price": 45000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/RamoGierbera2.png"
+    ],
     "image": "/productos/ramos/grandes/RamoGierbera1.png",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-120",
-    "name": "Ramo Gierbera2",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/RamoGierbera2.png",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -1105,34 +1041,25 @@ export const productos: Producto[] = [
     "id": "prod-121",
     "name": "Ramo Gierbera3",
     "price": 45000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/RamoGierbera4.png",
+    ],
     "image": "/productos/ramos/grandes/RamoGierbera3.png",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
   },
-  {
-    "id": "prod-122",
-    "name": "Ramo Gierbera4",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/RamoGierbera4.png",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
+
   {
     "id": "prod-123",
     "name": "Ramo Girasol1",
     "price": 45000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ramoGirasol2.png",
+    ],
     "image": "/productos/ramos/grandes/ramoGirasol1.png",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-124",
-    "name": "Ramo Girasol2",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ramoGirasol2.png",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -1168,16 +1095,11 @@ export const productos: Producto[] = [
     "id": "prod-128",
     "name": "Ramo Pre Roja1",
     "price": 45000,
+    "hasCarousel": true,
+    "images": [
+      "/productos/ramos/grandes/ramoPreRoja2.png",
+    ],
     "image": "/productos/ramos/grandes/ramoPreRoja1.png",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos Grandes",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-129",
-    "name": "Ramo Pre Roja2",
-    "price": 45000,
-    "image": "/productos/ramos/grandes/ramoPreRoja2.png",
     "categoria": "Ramos",
     "subcategoria": "Ramos Grandes",
     "description": "Hermoso detalle para regalar."
@@ -1367,24 +1289,11 @@ export const productos: Producto[] = [
     "name": "Ram4Pe Lirio Rosa Clavel1",
     "price": 25000,
     "image": "/productos/ramos/peque/ram4PeLirioRosaClavel1.jpeg",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos pequeños",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-151",
-    "name": "Ram4Pe Lirio Rosa Clavel1",
-    "price": 25000,
-    "image": "/productos/ramos/peque/ram4PeLirioRosaClavel1.png",
-    "categoria": "Ramos",
-    "subcategoria": "Ramos pequeños",
-    "description": "Hermoso detalle para regalar."
-  },
-  {
-    "id": "prod-152",
-    "name": "Ram4Pe Lirio Rosa Clavel2",
-    "price": 25000,
-    "image": "/productos/ramos/peque/ram4PeLirioRosaClavel2.jpeg",
+    hasCarousel: true,
+    images: [
+      "/productos/ramos/peque/ram4PeLirioRosaClavel1.png",
+      "/productos/ramos/peque/ram4PeLirioRosaClavel2.jpeg",
+    ],
     "categoria": "Ramos",
     "subcategoria": "Ramos pequeños",
     "description": "Hermoso detalle para regalar."

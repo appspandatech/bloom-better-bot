@@ -257,18 +257,18 @@ const CheckoutForm = ({ onCancel }: { onCancel: () => void }) => {
         />
       </section>
 
-      <div className="flex gap-3 pt-2">
+      <div className="flex flex-col-reverse sm:flex-row gap-3 pt-4">
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 border border-foreground/30 px-6 py-3 text-xs tracking-[0.3em] uppercase hover:border-primary hover:text-primary transition-colors"
+          className="flex-1 border border-foreground/30 px-6 py-4 text-xs tracking-widest sm:tracking-[0.3em] uppercase hover:border-primary hover:text-primary transition-colors"
         >
           Volver
         </button>
         <button
           type="submit"
           disabled={submitting}
-          className="flex-[2] bg-primary text-primary-foreground px-6 py-3 text-xs tracking-[0.3em] uppercase hover:bg-primary/90 transition-colors disabled:opacity-60"
+          className="flex-[2] bg-primary text-primary-foreground px-4 sm:px-6 py-4 text-xs tracking-widest sm:tracking-[0.3em] uppercase hover:bg-primary/90 transition-colors disabled:opacity-60 whitespace-normal leading-relaxed"
         >
           {submitting ? "Enviando..." : "Generar pedido por WhatsApp"}
         </button>

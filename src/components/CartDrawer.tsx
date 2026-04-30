@@ -29,9 +29,8 @@ const CartDrawer = () => {
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       />
-      {/* Panel */}
       <aside
-        className={`fixed top-0 right-0 z-[70] h-full w-full sm:w-[460px] bg-background shadow-elegant transition-transform duration-500 flex flex-col ${
+        className={`fixed top-0 right-0 z-[70] h-full w-full max-w-[100vw] overflow-x-hidden sm:w-[460px] bg-background shadow-elegant transition-transform duration-500 flex flex-col ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!isOpen}
