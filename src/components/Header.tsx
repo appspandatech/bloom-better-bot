@@ -1,22 +1,97 @@
-import { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Menu, X, ShoppingBag } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { Menu, X, ShoppingBag, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import { useCart } from "@/context/CartContext";
 
-const links = [
+type SubItem = { to: string; label: string };
+type NavItem = { to?: string; label: string; children?: SubItem[] };
+
+const navItems: NavItem[] = [
   { to: "/", label: "Inicio" },
-  { to: "/grandes", label: "Ramos Grandes" },
-  { to: "/pequenos", label: "Ramos Pequeños" },
-  { to: "/boda", label: "Boda" },
-  { to: "/regalos", label: "Regalos" },
-  { to: "/perfumes", label: "Perfumes" },
+  {
+    label: "Ramos",
+    children: [
+      { to: "/grandes", label: "Ramos Grandes" },
+      { to: "/pequenos", label: "Ramos Pequeños" },
+      { to: "/cajas-jarrones", label: "Cajas y Jarrones" },
+      { to: "/boda", label: "Boda" },
+    ],
+  },
+  {
+    label: "Regalos",
+    children: [
+      { to: "/regalos/dulces", label: "Dulces" },
+      { to: "/regalos/peluches", label: "Peluches" },
+    ],
+  },
+  {
+    label: "Perfumes",
+    children: [
+      { to: "/perfumes/hombres", label: "Hombres" },
+      { to: "/perfumes/mujeres", label: "Mujeres" },
+    ],
+  },
   { to: "/suscripcion", label: "Miembro Golden" },
 ];
+
+const linkClass = (isActive: boolean) =>
+  `text-sm tracking-wide uppercase transition-colors hover:text-primary ${
+    isActive ? "text-primary" : "text-foreground/80"
+  }`;
+
+const DesktopDropdown = ({ item }: { item: NavItem }) => {
+  const [open, setOpen] = useState(false);
+  const timeoutRef = useRef<number | null>(null);
+  const location = useLocation();
+  const isActive = item.children?.some((c) => location.pathname.startsWith(c.to));
+
+  const handleEnter = () => {
+    if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+    setOpen(true);
+  };
+  const handleLeave = () => {
+    timeoutRef.current = window.setTimeout(() => setOpen(false), 120);
+  };
+
+  return (
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      <button
+        type="button"
+        className={`flex items-center gap-1 ${linkClass(!!isActive)}`}
+        aria-haspopup="true"
+        aria-expanded={open}
+      >
+        {item.label}
+        <ChevronDown size={14} className={`transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 min-w-[220px] animate-fade-in">
+          <div className="bg-background border border-border shadow-soft py-2">
+            {item.children!.map((c) => (
+              <NavLink
+                key={c.to}
+                to={c.to}
+                className={({ isActive }) =>
+                  `block px-5 py-2.5 text-sm tracking-wide transition-colors hover:bg-muted hover:text-primary ${
+                    isActive ? "text-primary" : "text-foreground/80"
+                  }`
+                }
+              >
+                {c.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [openMobileSection, setOpenMobileSection] = useState<string | null>(null);
   const { count, openCart } = useCart();
 
   useEffect(() => {
@@ -35,20 +110,20 @@ const Header = () => {
         <Logo />
 
         <nav className="hidden lg:flex items-center gap-8">
-          {links.slice(0, 6).map((l) => (
-            <NavLink
-              key={l.to}
-              to={l.to}
-              end={l.to === "/"}
-              className={({ isActive }) =>
-                `text-sm tracking-wide uppercase transition-colors hover:text-primary ${
-                  isActive ? "text-primary" : "text-foreground/80"
-                }`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
+          {navItems.slice(0, -1).map((item) =>
+            item.children ? (
+              <DesktopDropdown key={item.label} item={item} />
+            ) : (
+              <NavLink
+                key={item.to}
+                to={item.to!}
+                end={item.to === "/"}
+                className={({ isActive }) => linkClass(isActive)}
+              >
+                {item.label}
+              </NavLink>
+            ),
+          )}
         </nav>
 
         <div className="hidden lg:flex items-center gap-4">
@@ -97,20 +172,61 @@ const Header = () => {
 
       {open && (
         <div className="lg:hidden bg-background border-t border-border animate-fade-in">
-          <nav className="container py-6 flex flex-col gap-4">
-            {links.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                end={l.to === "/"}
-                onClick={() => setOpen(false)}
-                className={({ isActive }) =>
-                  `text-base tracking-wide uppercase py-2 ${isActive ? "text-primary" : "text-foreground/80"}`
-                }
-              >
-                {l.label}
-              </NavLink>
-            ))}
+          <nav className="container py-6 flex flex-col gap-1">
+            {navItems.map((item) =>
+              item.children ? (
+                <div key={item.label} className="border-b border-border/50 last:border-b-0">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenMobileSection(openMobileSection === item.label ? null : item.label)
+                    }
+                    className="w-full flex items-center justify-between py-3 text-base tracking-wide uppercase text-foreground/80"
+                  >
+                    {item.label}
+                    <ChevronDown
+                      size={16}
+                      className={`transition-transform ${
+                        openMobileSection === item.label ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  {openMobileSection === item.label && (
+                    <div className="pb-3 pl-4 flex flex-col gap-2">
+                      {item.children.map((c) => (
+                        <NavLink
+                          key={c.to}
+                          to={c.to}
+                          onClick={() => {
+                            setOpen(false);
+                            setOpenMobileSection(null);
+                          }}
+                          className={({ isActive }) =>
+                            `text-sm py-1.5 ${isActive ? "text-primary" : "text-foreground/70"}`
+                          }
+                        >
+                          {c.label}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <NavLink
+                  key={item.to}
+                  to={item.to!}
+                  end={item.to === "/"}
+                  onClick={() => setOpen(false)}
+                  className={({ isActive }) =>
+                    `text-base tracking-wide uppercase py-3 border-b border-border/50 ${
+                      isActive ? "text-primary" : "text-foreground/80"
+                    }`
+                  }
+                >
+                  {item.label}
+                </NavLink>
+              ),
+            )}
           </nav>
         </div>
       )}
